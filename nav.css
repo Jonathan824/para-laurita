@@ -1,0 +1,95 @@
+/* =====================================================================
+   nav.css — Barra de navegación compartida
+   ---------------------------------------------------------------------
+   Una píldora discreta fija en la parte superior de cada experiencia
+   para volver a la portada o saltar a la otra página.
+
+   Uso (dentro de rosa/ o runas/):
+     <link rel="stylesheet" href="../nav.css">
+     <nav class="nav-sitio nav-rosa" aria-label="Navegación">
+       <a href="../">Inicio</a>
+       <a href="../runas/">Las runas</a>
+     </nav>
+
+   Variantes de color: .nav-rosa (rosado) · .nav-runas (dorado)
+   ===================================================================== */
+
+.nav-sitio {
+  --nav-texto:  #f3eadf;
+  --nav-acento: #c9a961;
+  --nav-borde:  rgba(201, 169, 97, 0.3);
+  --nav-fondo:  rgba(8, 15, 26, 0.55);
+
+  position: fixed;
+  top: calc(14px + env(safe-area-inset-top));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid var(--nav-borde);
+  border-radius: 999px;
+  background: var(--nav-fondo);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 10px 30px -18px rgba(0, 0, 0, 0.9);
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
+  font-size: 1rem;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  animation: nav-aparecer 1s ease 0.4s both;
+}
+
+.nav-rosa {
+  --nav-acento: #f594b8;
+  --nav-borde:  rgba(245, 148, 184, 0.35);
+}
+.nav-runas {
+  --nav-acento: #c9a961;
+  --nav-borde:  rgba(201, 169, 97, 0.35);
+}
+
+.nav-sitio a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 16px;
+  border-radius: 999px;
+  color: var(--nav-texto);
+  text-decoration: none;
+  opacity: 0.8;
+  -webkit-tap-highlight-color: transparent;
+  transition: opacity 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+}
+.nav-sitio a:hover,
+.nav-sitio a:focus-visible {
+  opacity: 1;
+  color: var(--nav-acento);
+  background: rgba(255, 255, 255, 0.05);
+  outline: none;
+}
+
+/* Punto separador entre enlaces */
+.nav-sitio a + a::before {
+  content: '·';
+  margin-right: 10px;
+  margin-left: -8px;
+  color: var(--nav-acento);
+  opacity: 0.7;
+}
+
+/* Deja sitio arriba para que la barra no tape el contenido */
+body.con-nav {
+  padding-top: calc(72px + env(safe-area-inset-top)) !important;
+}
+
+@keyframes nav-aparecer {
+  from { opacity: 0; transform: translate(-50%, -8px); }
+  to   { opacity: 1; transform: translate(-50%, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nav-sitio { animation: none; }
+}

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0b0f1a">
+  <!-- Evita que buscadores indexen la página: es una experiencia privada -->
+  <meta name="robots" content="noindex, nofollow">
+  <title>El Sello de las Runas</title>
+  <meta name="description" content="Escribe el nombre de la runa que sella tu carta y descubre su secreto.">
+
+  <!-- Tipografías: Cinzel (títulos), Cormorant Garamond (versos), Inter (texto),
+       Noto Sans Runic (garantiza que el símbolo rúnico se vea en cualquier celular) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500&family=Noto+Sans+Runic&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../nav.css">
+</head>
+<body class="con-nav">
+    <!-- Barra de navegación compartida (estilos en ../nav.css) -->
+    <nav class="nav-sitio nav-runas" aria-label="Navegación">
+        <a href="../">Inicio</a>
+        <a href="../rosa/">La rosa</a>
+    </nav>
+
+
+  <!-- Cielo nocturno decorativo (solo CSS) -->
+  <div class="stars" aria-hidden="true"></div>
+
+  <main class="scene">
+
+    <!-- ========================================================
+         ESTADO 1 · EL PORTAL
+         Campo de texto único + botón "Descifrar".
+         ======================================================== -->
+    <section id="portal" class="panel portal" aria-labelledby="portal-title">
+      <p class="eyebrow">Para Laura</p>
+      <h1 id="portal-title">Ingresa el nombre de la runa<br>que sella tu carta</h1>
+
+      <form id="form-runa" class="form" novalidate autocomplete="off">
+        <label for="input-runa" class="visually-hidden">Nombre de la runa</label>
+        <input
+          id="input-runa"
+          name="runa"
+          type="text"
+          class="input"
+          placeholder="escribe aquí…"
+          autocapitalize="none"
+          autocorrect="off"
+          spellcheck="false"
+          inputmode="text"
+          enterkeyhint="go"
+          required
+        >
+        <!-- Mensaje de error discreto (aria-live para lectores de pantalla) -->
+        <p id="mensaje-error" class="error" role="status" aria-live="polite"></p>
+        <button type="submit" class="btn btn-primary">Descifrar</button>
+      </form>
+    </section>
+
+    <!-- ========================================================
+         ESTADO 2 · LA REVELACIÓN
+         Oculto hasta que la runa coincide. app.js rellena los campos.
+         ======================================================== -->
+    <article id="revelacion" class="panel revelacion" hidden tabindex="-1" aria-label="Revelación de la carta">
+
+      <!-- Bloque 1 · La runa -->
+      <section class="bloque bloque-runa" aria-labelledby="runa-nombre">
+        <p class="eyebrow">La runa</p>
+        <div class="runa-simbolo" id="runa-simbolo" aria-hidden="true"></div>
+        <h2 id="runa-nombre"></h2>
+        <p class="texto" id="runa-significado"></p>
+      </section>
+
+      <div class="separador" aria-hidden="true">✦</div>
+
+      <!-- Bloque 2 · El sello -->
+      <section class="bloque bloque-sello" aria-labelledby="sello-palabra">
+        <p class="eyebrow">El sello</p>
+        <h2 id="sello-palabra"></h2>
+        <p class="idioma" id="sello-idioma"></p>
+        <p class="texto" id="sello-significado"></p>
+        <!-- Mensaje personal opcional; se oculta si está vacío -->
+        <blockquote class="mensaje" id="sello-mensaje" hidden></blockquote>
+      </section>
+
+      <button type="button" id="btn-cerrar" class="btn btn-ghost">Cerrar pergamino</button>
+    </article>
+
+  </main>
+
+  <!-- data.js debe cargarse antes que app.js -->
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,351 @@
+/* =====================================================================
+   style.css — El Sello de las Runas
+   ---------------------------------------------------------------------
+   Diseño mobile-first. Estética nocturna, mística y minimalista:
+   fondo azul medianoche, acentos dorados tenues y pergamino.
+   ===================================================================== */
+
+/* ---------- Variables de diseño ---------- */
+:root {
+  --bg:         #0b0f1a;                  /* azul medianoche profundo */
+  --bg-glow:    #182240;                  /* halo superior más claro   */
+  --gold:       #c9a961;                  /* dorado tenue              */
+  --gold-soft:  rgba(201, 169, 97, 0.35); /* dorado translúcido        */
+  --gold-faint: rgba(201, 169, 97, 0.08);
+  --parchment:  #e8dcc4;                  /* pergamino                 */
+  --text:       #cfc7b8;                  /* texto descriptivo         */
+  --muted:      #8d8778;                  /* texto secundario          */
+
+  --font-title: 'Cinzel', 'Times New Roman', serif;
+  --font-poem:  'Cormorant Garamond', Georgia, serif;
+  --font-body:  'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-runa:  'Noto Sans Runic', 'Segoe UI Symbol', serif;
+
+  --ease:       cubic-bezier(0.22, 0.61, 0.36, 1);
+  --dur-out:    550ms;   /* duración del fade-out */
+  --dur-in:     850ms;   /* duración del fade-in + deslizamiento */
+}
+
+/* ---------- Reset mínimo ---------- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 20px calc(32px + env(safe-area-inset-bottom));
+  position: relative;
+  overflow-x: hidden;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-weight: 300;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  background:
+    radial-gradient(ellipse 90% 55% at 50% -10%, var(--bg-glow), transparent 70%),
+    var(--bg);
+}
+
+/* El atributo hidden debe ganar siempre a cualquier display declarado */
+[hidden] { display: none !important; }
+
+/* Etiquetas accesibles pero invisibles */
+.visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ---------- Cielo nocturno (estrellas sutiles, solo CSS) ---------- */
+.stars {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(1px 1px at 12% 22%, rgba(232,220,196,.55) 50%, transparent 51%),
+    radial-gradient(1px 1px at 78% 14%, rgba(232,220,196,.45) 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 55% 8%,  rgba(201,169,97,.55) 50%, transparent 51%),
+    radial-gradient(1px 1px at 30% 70%, rgba(232,220,196,.35) 50%, transparent 51%),
+    radial-gradient(1px 1px at 88% 62%, rgba(232,220,196,.45) 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 65% 85%, rgba(201,169,97,.4) 50%, transparent 51%),
+    radial-gradient(1px 1px at 8% 90%,  rgba(232,220,196,.35) 50%, transparent 51%),
+    radial-gradient(1px 1px at 42% 45%, rgba(232,220,196,.3) 50%, transparent 51%);
+  animation: twinkle 7s ease-in-out infinite;
+}
+
+/* ---------- Escena ---------- */
+.scene {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 480px;
+}
+
+.panel { width: 100%; }
+
+/* Pequeño rótulo en mayúsculas doradas */
+.eyebrow {
+  font-family: var(--font-title);
+  font-size: 0.68rem;
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: 0.85;
+  margin-bottom: 18px;
+}
+
+/* =====================================================================
+   ESTADO 1 · PORTAL
+   ===================================================================== */
+.portal {
+  text-align: center;
+  padding: 40px 6px;
+}
+
+.portal h1 {
+  font-family: var(--font-poem);
+  font-weight: 400;
+  font-style: italic;
+  font-size: clamp(1.65rem, 6.2vw, 2.15rem);
+  line-height: 1.35;
+  color: var(--parchment);
+  margin-bottom: 40px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+/* Campo de texto: sin bordes de navegador, solo una línea dorada */
+.input {
+  width: 100%;
+  max-width: 320px;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--gold-soft);
+  border-radius: 0;
+  -webkit-appearance: none;
+  appearance: none;
+  outline: none;
+  color: var(--parchment);
+  font-family: var(--font-title);
+  font-size: 1.2rem;            /* 16px o más evita el zoom automático en iOS */
+  letter-spacing: 0.18em;
+  text-align: center;
+  padding: 12px 8px;
+  caret-color: var(--gold);
+  transition: border-color 0.35s var(--ease), box-shadow 0.35s var(--ease);
+}
+.input::placeholder {
+  color: var(--muted);
+  font-family: var(--font-poem);
+  font-style: italic;
+  font-size: 1.1rem;
+  letter-spacing: 0.05em;
+  opacity: 0.8;
+}
+.input:focus {
+  border-bottom-color: var(--gold);
+  box-shadow: 0 14px 28px -18px var(--gold-soft);
+}
+
+/* Mensaje de error discreto. min-height evita saltos de diseño. */
+.error {
+  min-height: 1.6em;
+  font-family: var(--font-poem);
+  font-style: italic;
+  font-size: 1.02rem;
+  color: var(--muted);
+}
+
+/* ---------- Botones ---------- */
+.btn {
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  -webkit-tap-highlight-color: transparent;
+  transition: color 0.3s var(--ease), border-color 0.3s var(--ease),
+              box-shadow 0.3s var(--ease), opacity 0.3s var(--ease);
+}
+
+.btn-primary {
+  margin-top: 6px;
+  padding: 14px 34px;
+  border: 1px solid var(--gold-soft);
+  border-radius: 999px;
+  font-family: var(--font-title);
+  font-size: 0.78rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.btn-primary:hover,
+.btn-primary:focus-visible {
+  border-color: var(--gold);
+  box-shadow: 0 0 28px -8px var(--gold-soft);
+  outline: none;
+}
+.btn-primary:active { opacity: 0.7; }
+
+.btn-ghost {
+  margin-top: 40px;
+  padding: 12px 16px;
+  font-family: var(--font-poem);
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--muted);
+  text-decoration: underline;
+  text-underline-offset: 0.35em;
+  text-decoration-color: var(--gold-soft);
+}
+.btn-ghost:hover,
+.btn-ghost:focus-visible {
+  color: var(--gold);
+  text-decoration-color: var(--gold);
+  outline: none;
+}
+
+/* =====================================================================
+   ESTADO 2 · REVELACIÓN
+   ===================================================================== */
+.revelacion {
+  text-align: center;
+  padding: 44px 24px 26px;
+  border: 1px solid var(--gold-soft);
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.012));
+  box-shadow:
+    0 40px 70px -40px rgba(0, 0, 0, 0.85),
+    inset 0 0 0 1px var(--gold-faint);
+  outline: none;
+}
+
+.bloque {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Símbolo rúnico grande con halo dorado */
+.runa-simbolo {
+  font-family: var(--font-runa);
+  font-size: 6rem;
+  line-height: 1;
+  color: var(--gold);
+  text-shadow: 0 0 34px var(--gold-soft);
+  margin: 4px 0 6px;
+}
+
+.revelacion h2 {
+  font-family: var(--font-title);
+  font-weight: 600;
+  font-size: 1.45rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--parchment);
+}
+
+.texto {
+  font-size: 0.98rem;
+  color: var(--text);
+  max-width: 36ch;
+}
+
+.idioma {
+  margin-top: -6px;
+  font-family: var(--font-poem);
+  font-style: italic;
+  font-size: 1.05rem;
+  letter-spacing: 0.08em;
+  color: var(--gold);
+}
+
+/* Separador ornamental entre los dos bloques */
+.separador {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 34px auto;
+  font-size: 0.75rem;
+  color: var(--gold);
+  opacity: 0.85;
+}
+.separador::before,
+.separador::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-soft));
+}
+.separador::after {
+  background: linear-gradient(90deg, var(--gold-soft), transparent);
+}
+
+/* Mensaje personal (opcional) */
+.mensaje {
+  margin-top: 16px;
+  padding: 18px 20px;
+  text-align: left;
+  border-left: 2px solid var(--gold-soft);
+  border-radius: 0 10px 10px 0;
+  background: var(--gold-faint);
+  font-family: var(--font-poem);
+  font-style: italic;
+  font-size: 1.12rem;
+  line-height: 1.55;
+  color: var(--parchment);
+}
+
+/* =====================================================================
+   ANIMACIONES
+   ===================================================================== */
+@keyframes fadeOut {
+  to { opacity: 0; transform: translateY(-12px); }
+}
+@keyframes riseIn {
+  from { opacity: 0; transform: translateY(36px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25%      { transform: translateX(-4px); }
+  75%      { transform: translateX(4px); }
+}
+@keyframes twinkle {
+  0%, 100% { opacity: 0.55; }
+  50%      { opacity: 1; }
+}
+
+/* app.js alterna estas clases durante las transiciones */
+.is-leaving  { animation: fadeOut var(--dur-out) var(--ease) forwards; pointer-events: none; }
+.is-entering { animation: riseIn  var(--dur-in)  var(--ease) both; }
+.input.is-shaking { animation: shake 0.38s ease; }
+
+/* Respeta la preferencia de movimiento reducido */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* =====================================================================
+   PANTALLAS MAYORES (tablet / escritorio)
+   ===================================================================== */
+@media (min-width: 640px) {
+  .scene { max-width: 520px; }
+  .revelacion { padding: 56px 48px 36px; }
+  .runa-simbolo { font-size: 7rem; }
+  .revelacion h2 { font-size: 1.6rem; }
+}
