@@ -26,6 +26,7 @@
     runaSimbolo:      document.getElementById('runa-simbolo'),
     runaNombre:       document.getElementById('runa-nombre'),
     runaSignificado:  document.getElementById('runa-significado'),
+    selloRotulo:      document.getElementById('sello-rotulo'),
     selloPalabra:     document.getElementById('sello-palabra'),
     selloIdioma:      document.getElementById('sello-idioma'),
     selloSignificado: document.getElementById('sello-significado'),
@@ -108,6 +109,9 @@
     campos.runaSimbolo.textContent      = carta.runa.simbolo;
     campos.runaNombre.textContent       = carta.runa.nombre;
     campos.runaSignificado.textContent  = carta.runa.significado;
+    // Rótulo del sello: "El sello · Casa" si la carta tiene nombre
+    const nombreCarta = (carta.sello.carta || '').trim();
+    campos.selloRotulo.textContent      = nombreCarta ? 'El sello · ' + nombreCarta : 'El sello';
     campos.selloPalabra.textContent     = carta.sello.palabra;
     campos.selloIdioma.textContent      = carta.sello.idioma;
     campos.selloSignificado.textContent = carta.sello.significado;
