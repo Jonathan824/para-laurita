@@ -109,9 +109,9 @@
     campos.runaSimbolo.textContent      = carta.runa.simbolo;
     campos.runaNombre.textContent       = carta.runa.nombre;
     campos.runaSignificado.textContent  = carta.runa.significado;
-    // Rótulo del sello: "El sello · Casa" si la carta tiene nombre
+    // Rótulo del bloque: "La palabra · Casa" si la carta tiene nombre
     const nombreCarta = (carta.sello.carta || '').trim();
-    campos.selloRotulo.textContent      = nombreCarta ? 'El sello · ' + nombreCarta : 'El sello';
+    campos.selloRotulo.textContent      = nombreCarta ? 'La palabra · ' + nombreCarta : 'La palabra';
     campos.selloPalabra.textContent     = carta.sello.palabra;
     campos.selloIdioma.textContent      = carta.sello.idioma;
     campos.selloSignificado.textContent = carta.sello.significado;
